@@ -1,9 +1,9 @@
 // Global variables
 
-let pomodoroTime = 55 * 60; // Default pomodoro time in seconds
-let shortBreakTime = 1; // Default short break time in seconds
-let longBreakTime = 10 * 60; // Default long break time in seconds
-let timeLeft = pomodoroTime; 
+let pomodoroTime = 55; // Default pomodoro time in seconds
+let shortBreakTime = 5; // Default short break time in seconds
+let longBreakTime = 10; // Default long break time in seconds
+let timeLeft = pomodoroTime * 60; 
 let timerInterval;
 let currentInterval = 'pomodoro';
 let backgroundColor = '#F1F1EF'; // Default background color
@@ -23,27 +23,30 @@ const closeModalBtn = document.querySelector('.close-btn');
 const backgroundColorSelect = document.getElementById('background-color');
 const fontColorSelect = document.getElementById('font-color');
 const audioSelect = document.getElementById('audio');
+const pomodoroTimeSelect = document.getElementById('focus-time');
+const longBreakTimeSelect = document.getElementById('long-time');
+const shortBreakTimeSelect = document.getElementById('short-time');
 const saveBtn = document.getElementById('save-btn');
 
 // Event listeners for interval buttons
 pomodoroIntervalBtn.addEventListener('click', () => {
   currentInterval = 'pomodoro';
   stopTimer();
-  timeLeft = pomodoroTime;
+  timeLeft = pomodoroTime * 60;
   updateTimeLeftTextContent();
 });
 
 shortBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'short-break';
   stopTimer();
-  timeLeft = shortBreakTime;
+  timeLeft = shortBreakTime * 60;
   updateTimeLeftTextContent();
 });
 
 longBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'long-break';
   stopTimer();
-  timeLeft = longBreakTime;
+  timeLeft = longBreakTime * 60;
   updateTimeLeftTextContent();
 });
 
@@ -61,11 +64,11 @@ startStopBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
   stopTimer();
   if (currentInterval === 'pomodoro') {
-    timeLeft = pomodoroTime;
+    timeLeft = pomodoroTime * 60;
   } else if (currentInterval === 'short-break') {
-    timeLeft = shortBreakTime;
+    timeLeft = shortBreakTime * 60;
   } else {
-    timeLeft = longBreakTime;
+    timeLeft = longBreakTime * 60;
   }
   updateTimeLeftTextContent();
   startStopBtn.textContent = 'Start';
@@ -86,11 +89,26 @@ saveBtn.addEventListener('click', () => {
   const newBackgroundColor = backgroundColorSelect.value;
   const newFontColor = fontColorSelect.value;
   const newAudio = audioSelect.value;
-
+  const newPomodoroTime = pomodoroTimeSelect.value;
+  const newLongBreakTime = longBreakTimeSelect.value;
+  const newShortBreakTime = shortBreakTimeSelect.value;
+  
   // Save preferences to localStorage
   localStorage.setItem('backgroundColor', newBackgroundColor);
   localStorage.setItem('fontColor', newFontColor);
   localStorage.setItem('audio', newAudio);
+  
+  if (newPomodoroTime && newPomodoroTime <= 24*60){
+    localStorage.setItem('pomodoroTime', newPomodoroTime);
+  }
+  if (newLongBreakTime && newLongBreakTime <= 24*60){
+    localStorage.setItem('longBreakTime', newLongBreakTime);
+  }
+  if (newShortBreakTime && newShortBreakTime <= 24*60){
+    localStorage.setItem('shortBreakTime', newShortBreakTime);
+  }
+
+
 
   // Apply the new saved preferences
   applyUserPreferences();
@@ -123,15 +141,15 @@ function startTimer() {
       clearInterval(timerInterval);
       beep();
       if (currentInterval === 'pomodoro') {
-        timeLeft = shortBreakTime;
+        timeLeft = shortBreakTime * 60;
         currentInterval = 'short-break';
         startTimer();
       } else if (currentInterval === 'short-break') {
-        timeLeft = longBreakTime;
+        timeLeft = longBreakTime * 60;
         currentInterval = 'long-break';
         startTimer();
       } else {
-        timeLeft = pomodoroTime;
+        timeLeft = pomodoroTime * 60;
         currentInterval = 'pomodoro';
       }
     }
@@ -157,6 +175,9 @@ function applyUserPreferences() {
   const savedBackgroundColor = localStorage.getItem('backgroundColor');
   const savedFontColor = localStorage.getItem('fontColor');
   const savedAudio = localStorage.getItem('audio');
+  const savedPomodoroTime = localStorage.getItem('pomodoroTime');
+  const savedLongBreakTime = localStorage.getItem('longBreakTime');
+  const savedShortBreakTime = localStorage.getItem('shortBreakTime');
 
   // Apply the preferences if they exist in localStorage
   if (savedBackgroundColor) {
@@ -171,6 +192,18 @@ function applyUserPreferences() {
     audio = savedAudio;
   }
 
+  if (savedPomodoroTime) {
+    pomodoroTime = savedPomodoroTime;
+  }
+
+  if (savedLongBreakTime) {
+    longBreakTime = savedLongBreakTime;
+  }
+
+  if (savedShortBreakTime) {
+    shortBreakTime = savedShortBreakTime;
+  }
+
   // Apply the preferences to the Pomodoro Timer widget
   document.body.style.backgroundColor = backgroundColor;
   document.body.style.color = fontColor;
@@ -183,10 +216,16 @@ function applyUserPreferences() {
     button.style.borderColor = fontColor;
   });
 
+  timeLeft = pomodoroTime * 60;
+  updateTimeLeftTextContent()
+
   // select saved values when reloading
   backgroundColorSelect.value = backgroundColor;
   fontColorSelect.value = fontColor;
   audioSelect.value = audio;
+  pomodoroTimeSelect.value = pomodoroTime;
+  longBreakTimeSelect.value = longBreakTime;
+  shortBreakTimeSelect.value = shortBreakTime;
 }
 
 // Apply user preferences on page load
