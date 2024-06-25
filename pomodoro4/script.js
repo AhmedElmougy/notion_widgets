@@ -92,6 +92,21 @@ saveBtn.addEventListener('click', () => {
   settingsModal.style.display = 'none';
 });
 
+// Function to play sound
+function beep() {
+  var snd = new Audio("bell.mp3");  
+  const repeatCount = 3; // Number of times to play the sound
+  const delay = 1500; // Delay in milliseconds between each play
+
+  
+  for (let i = 0; i < repeatCount; i++) {
+      setTimeout(() => {
+        snd.currentTime = 0; // Reset the audio to the start
+        snd.play();
+      }, i * delay);
+  }
+}
+
 // Function to start the timer
 function startTimer() {
   timerInterval = setInterval(() => {
@@ -99,6 +114,7 @@ function startTimer() {
     updateTimeLeftTextContent();
     if (timeLeft === 0) {
       clearInterval(timerInterval);
+      beep();
       if (currentInterval === 'pomodoro') {
         timeLeft = short_break_time;
         currentInterval = 'short-break';
