@@ -1,5 +1,9 @@
 // Global variables
-let timeLeft = 55 * 60; // seconds
+
+let pomodoro_time = 55 * 60; // seconds
+let short_break_time = 5 * 60; // seconds
+let long_break_time = 10 * 60; // seconds
+let timeLeft = pomodoro_time; 
 let timerInterval;
 let currentInterval = 'pomodoro';
 let backgroundColor = '#F1F1EF'; // Default background color
@@ -22,19 +26,19 @@ const saveBtn = document.getElementById('save-btn');
 // Event listeners for interval buttons
 pomodoroIntervalBtn.addEventListener('click', () => {
   currentInterval = 'pomodoro';
-  timeLeft = 55 * 60;
+  timeLeft = pomodoro_time;
   updateTimeLeftTextContent();
 });
 
 shortBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'short-break';
-  timeLeft = 5 * 60;
+  timeLeft = short_break_time;
   updateTimeLeftTextContent();
 });
 
 longBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'long-break';
-  timeLeft = 10 * 60;
+  timeLeft = long_break_time;
   updateTimeLeftTextContent();
 });
 
@@ -52,11 +56,11 @@ startStopBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
   stopTimer();
   if (currentInterval === 'pomodoro') {
-    timeLeft = 55 * 60;
+    timeLeft = pomodoro_time;
   } else if (currentInterval === 'short-break') {
-    timeLeft = 5 * 60;
+    timeLeft = short_break_time;
   } else {
-    timeLeft = 10 * 60;
+    timeLeft = long_break_time;
   }
   updateTimeLeftTextContent();
   startStopBtn.textContent = 'Start';
@@ -96,15 +100,15 @@ function startTimer() {
     if (timeLeft === 0) {
       clearInterval(timerInterval);
       if (currentInterval === 'pomodoro') {
-        timeLeft = 5 * 60;
+        timeLeft = short_break_time;
         currentInterval = 'short-break';
         startTimer();
       } else if (currentInterval === 'short-break') {
-        timeLeft = 10 * 60;
+        timeLeft = long_break_time;
         currentInterval = 'long-break';
         startTimer();
       } else {
-        timeLeft = 55 * 60;
+        timeLeft = pomodoro_time;
         currentInterval = 'pomodoro';
       }
     }
