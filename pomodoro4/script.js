@@ -182,6 +182,11 @@ function applyUserPreferences() {
     button.style.backgroundColor = backgroundColor;
     button.style.borderColor = fontColor;
   });
+
+  // select saved values when reloading
+  backgroundColorSelect.value = backgroundColor;
+  fontColorSelect.value = fontColor;
+  audioSelect.value = audio;
 }
 
 // Apply user preferences on page load
