@@ -117,8 +117,13 @@ saveBtn.addEventListener('click', () => {
   settingsModal.style.display = 'none';
 });
 
+audioSelect.addEventListener("change", () => {
+  var snd = new Audio(audioSelect.value);  
+  snd.play();
+});
+
 // Function to play sound
-function beep() {
+function playSound() {
   var snd = new Audio(audio);  
   const repeatCount = 3; // Number of times to play the sound
   const delay = 1500; // Delay in milliseconds between each play
@@ -139,7 +144,7 @@ function startTimer() {
     updateTimeLeftTextContent();
     if (timeLeft === 0) {
       clearInterval(timerInterval);
-      beep();
+      playSound();
       if (currentInterval === 'pomodoro') {
         timeLeft = shortBreakTime * 60;
         currentInterval = 'short-break';
