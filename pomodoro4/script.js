@@ -26,18 +26,21 @@ const saveBtn = document.getElementById('save-btn');
 // Event listeners for interval buttons
 pomodoroIntervalBtn.addEventListener('click', () => {
   currentInterval = 'pomodoro';
+  stopTimer();
   timeLeft = pomodoroTime;
   updateTimeLeftTextContent();
 });
 
 shortBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'short-break';
+  stopTimer();
   timeLeft = shortBreakTime;
   updateTimeLeftTextContent();
 });
 
 longBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'long-break';
+  stopTimer();
   timeLeft = longBreakTime;
   updateTimeLeftTextContent();
 });
