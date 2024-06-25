@@ -1,9 +1,9 @@
 // Global variables
 
-let pomodoro_time = 55 * 60; // seconds
-let short_break_time = 5 * 60; // seconds
-let long_break_time = 10 * 60; // seconds
-let timeLeft = pomodoro_time; 
+let pomodoroTime = 55 * 60; // Default pomodoro time in seconds
+let shortBreakTime = 5 * 60; // Default short break time in seconds
+let longBreakTime = 10 * 60; // Default long break time in seconds
+let timeLeft = pomodoroTime; 
 let timerInterval;
 let currentInterval = 'pomodoro';
 let backgroundColor = '#F1F1EF'; // Default background color
@@ -26,19 +26,19 @@ const saveBtn = document.getElementById('save-btn');
 // Event listeners for interval buttons
 pomodoroIntervalBtn.addEventListener('click', () => {
   currentInterval = 'pomodoro';
-  timeLeft = pomodoro_time;
+  timeLeft = pomodoroTime;
   updateTimeLeftTextContent();
 });
 
 shortBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'short-break';
-  timeLeft = short_break_time;
+  timeLeft = shortBreakTime;
   updateTimeLeftTextContent();
 });
 
 longBreakIntervalBtn.addEventListener('click', () => {
   currentInterval = 'long-break';
-  timeLeft = long_break_time;
+  timeLeft = longBreakTime;
   updateTimeLeftTextContent();
 });
 
@@ -56,11 +56,11 @@ startStopBtn.addEventListener('click', () => {
 resetBtn.addEventListener('click', () => {
   stopTimer();
   if (currentInterval === 'pomodoro') {
-    timeLeft = pomodoro_time;
+    timeLeft = pomodoroTime;
   } else if (currentInterval === 'short-break') {
-    timeLeft = short_break_time;
+    timeLeft = shortBreakTime;
   } else {
-    timeLeft = long_break_time;
+    timeLeft = longBreakTime;
   }
   updateTimeLeftTextContent();
   startStopBtn.textContent = 'Start';
@@ -116,15 +116,15 @@ function startTimer() {
       clearInterval(timerInterval);
       beep();
       if (currentInterval === 'pomodoro') {
-        timeLeft = short_break_time;
+        timeLeft = shortBreakTime;
         currentInterval = 'short-break';
         startTimer();
       } else if (currentInterval === 'short-break') {
-        timeLeft = long_break_time;
+        timeLeft = longBreakTime;
         currentInterval = 'long-break';
         startTimer();
       } else {
-        timeLeft = pomodoro_time;
+        timeLeft = pomodoroTime;
         currentInterval = 'pomodoro';
       }
     }
