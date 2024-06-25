@@ -1,13 +1,14 @@
 // Global variables
 
 let pomodoroTime = 55 * 60; // Default pomodoro time in seconds
-let shortBreakTime = 5 * 60; // Default short break time in seconds
+let shortBreakTime = 1; // Default short break time in seconds
 let longBreakTime = 10 * 60; // Default long break time in seconds
 let timeLeft = pomodoroTime; 
 let timerInterval;
 let currentInterval = 'pomodoro';
 let backgroundColor = '#F1F1EF'; // Default background color
 let fontColor = '#37352F'; // Default font color
+let audio = 'chime1.mp3'; // Default audio
 
 // DOM elements
 const timeLeftEl = document.getElementById('time-left');
@@ -21,6 +22,7 @@ const settingsModal = document.getElementById('settings-modal');
 const closeModalBtn = document.querySelector('.close-btn');
 const backgroundColorSelect = document.getElementById('background-color');
 const fontColorSelect = document.getElementById('font-color');
+const audioSelect = document.getElementById('audio');
 const saveBtn = document.getElementById('save-btn');
 
 // Event listeners for interval buttons
@@ -83,10 +85,12 @@ closeModalBtn.addEventListener('click', () => {
 saveBtn.addEventListener('click', () => {
   const newBackgroundColor = backgroundColorSelect.value;
   const newFontColor = fontColorSelect.value;
+  const newAudio = audioSelect.value;
 
   // Save preferences to localStorage
   localStorage.setItem('backgroundColor', newBackgroundColor);
   localStorage.setItem('fontColor', newFontColor);
+  localStorage.setItem('audio', newAudio);
 
   // Apply the new saved preferences
   applyUserPreferences();
@@ -97,7 +101,7 @@ saveBtn.addEventListener('click', () => {
 
 // Function to play sound
 function beep() {
-  var snd = new Audio("bell.mp3");  
+  var snd = new Audio(audio);  
   const repeatCount = 3; // Number of times to play the sound
   const delay = 1500; // Delay in milliseconds between each play
 
@@ -152,6 +156,7 @@ function applyUserPreferences() {
   // Retrieve user preferences from localStorage
   const savedBackgroundColor = localStorage.getItem('backgroundColor');
   const savedFontColor = localStorage.getItem('fontColor');
+  const savedAudio = localStorage.getItem('audio');
 
   // Apply the preferences if they exist in localStorage
   if (savedBackgroundColor) {
@@ -160,6 +165,10 @@ function applyUserPreferences() {
 
   if (savedFontColor) {
     fontColor = savedFontColor;
+  }
+
+  if (savedAudio) {
+    audio = savedAudio;
   }
 
   // Apply the preferences to the Pomodoro Timer widget
