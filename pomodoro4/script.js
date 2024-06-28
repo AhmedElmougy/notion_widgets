@@ -9,6 +9,7 @@ let currentInterval = 'pomodoro';
 let backgroundColor = '#F1F1EF'; // Default background color
 let fontColor = '#37352F'; // Default font color
 let audio = 'chime1.mp3'; // Default audio
+let fontSize = "10rem";    ; // Default font size
 
 // DOM elements
 const timeLeftEl = document.getElementById('time-left');
@@ -23,6 +24,7 @@ const closeModalBtn = document.querySelector('.close-btn');
 const backgroundColorSelect = document.getElementById('background-color');
 const fontColorSelect = document.getElementById('font-color');
 const audioSelect = document.getElementById('audio');
+const fontSizeSelect = document.getElementById('font-size');
 const pomodoroTimeSelect = document.getElementById('focus-time');
 const longBreakTimeSelect = document.getElementById('long-time');
 const shortBreakTimeSelect = document.getElementById('short-time');
@@ -88,6 +90,7 @@ closeModalBtn.addEventListener('click', () => {
 saveBtn.addEventListener('click', () => {
   const newBackgroundColor = backgroundColorSelect.value;
   const newFontColor = fontColorSelect.value;
+  const newFontSize = fontSizeSelect.value;
   const newAudio = audioSelect.value;
   const newPomodoroTime = pomodoroTimeSelect.value;
   const newLongBreakTime = longBreakTimeSelect.value;
@@ -96,6 +99,7 @@ saveBtn.addEventListener('click', () => {
   // Save preferences to localStorage
   localStorage.setItem('backgroundColor', newBackgroundColor);
   localStorage.setItem('fontColor', newFontColor);
+  localStorage.setItem('fontSize', newFontSize);
   localStorage.setItem('audio', newAudio);
   
   if (newPomodoroTime && newPomodoroTime <= 24*60){
@@ -107,8 +111,6 @@ saveBtn.addEventListener('click', () => {
   if (newShortBreakTime && newShortBreakTime <= 24*60){
     localStorage.setItem('shortBreakTime', newShortBreakTime);
   }
-
-
 
   // Apply the new saved preferences
   applyUserPreferences();
@@ -179,6 +181,7 @@ function applyUserPreferences() {
   // Retrieve user preferences from localStorage
   const savedBackgroundColor = localStorage.getItem('backgroundColor');
   const savedFontColor = localStorage.getItem('fontColor');
+  const savedFontSize = localStorage.getItem('fontSize');
   const savedAudio = localStorage.getItem('audio');
   const savedPomodoroTime = localStorage.getItem('pomodoroTime');
   const savedLongBreakTime = localStorage.getItem('longBreakTime');
@@ -191,6 +194,10 @@ function applyUserPreferences() {
 
   if (savedFontColor) {
     fontColor = savedFontColor;
+  }
+
+  if (savedFontSize) {
+    fontSize = savedFontSize;
   }
 
   if (savedAudio) {
@@ -213,6 +220,7 @@ function applyUserPreferences() {
   document.body.style.backgroundColor = backgroundColor;
   document.body.style.color = fontColor;
   timeLeftEl.style.color = fontColor;
+  timeLeftEl.style.fontSize = fontSize;
   // Update the buttons' font and background color
   const buttons = document.querySelectorAll('.interval-btn, #start-stop-btn, #reset-btn, #settings-btn');
   buttons.forEach((button) => {
@@ -227,6 +235,7 @@ function applyUserPreferences() {
   // select saved values when reloading
   backgroundColorSelect.value = backgroundColor;
   fontColorSelect.value = fontColor;
+  fontSizeSelect.value = fontSize;
   audioSelect.value = audio;
   pomodoroTimeSelect.value = pomodoroTime;
   longBreakTimeSelect.value = longBreakTime;
