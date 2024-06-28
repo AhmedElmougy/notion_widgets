@@ -6,9 +6,9 @@ let longBreakTime = 10; // Default long break time in seconds
 let timeLeft = pomodoroTime * 60; 
 let timerInterval;
 let currentInterval = 'pomodoro';
-let backgroundColor = '#F1F1EF'; // Default background color
-let fontColor = '#37352F'; // Default font color
-let audio = 'chime1.mp3'; // Default audio
+let backgroundColor = '#191919'; // Default background color
+let fontColor = '#FF7369'; // Default font color
+let audio = 'ding3.mp3'; // Default audio
 let fontSize = "10rem";    ; // Default font size
 
 // DOM elements
