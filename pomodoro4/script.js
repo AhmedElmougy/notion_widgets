@@ -124,18 +124,36 @@ audioSelect.addEventListener("change", () => {
   snd.play();
 });
 
+
+function getAudioDuration(url) {
+  return new Promise((resolve, reject) => {
+      const audio = new Audio(url);
+
+      audio.addEventListener('loadedmetadata', () => {
+          resolve(audio.duration);
+      });
+
+      audio.addEventListener('error', (error) => {
+          reject(new Error('Failed to load audio file.'));
+      });
+
+      // Load the audio file to trigger the 'loadedmetadata' event
+      audio.load();
+  });
+}
+
 // Function to play sound
 function playSound() {
   var snd = new Audio(audio);  
   const repeatCount = 3; // Number of times to play the sound
-  const delay = 1500; // Delay in milliseconds between each play
-
+  getAudioDuration(audio).then(function(duration){localStorage.setItem("audioDuration",duration);}).catch(function(error){console.error(error);}); // Delay in milliseconds between each play
+  const delay = localStorage.getItem("audioDuration");
   
   for (let i = 0; i < repeatCount; i++) {
       setTimeout(() => {
         snd.currentTime = 0; // Reset the audio to the start
         snd.play();
-      }, i * delay);
+      }, i * 1300* delay);
   }
 }
 
