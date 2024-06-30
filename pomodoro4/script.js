@@ -101,7 +101,7 @@ saveBtn.addEventListener('click', () => {
   localStorage.setItem('fontColor', newFontColor);
   localStorage.setItem('fontSize', newFontSize);
   localStorage.setItem('audio', newAudio);
-  
+
   if (newPomodoroTime && newPomodoroTime <= 24*60){
     localStorage.setItem('pomodoroTime', newPomodoroTime);
   }
@@ -145,20 +145,16 @@ function startTimer() {
     timeLeft--;
     updateTimeLeftTextContent();
     if (timeLeft === 0) {
-      clearInterval(timerInterval);
+      stopTimer();
       playSound();
       if (currentInterval === 'pomodoro') {
         timeLeft = shortBreakTime * 60;
         currentInterval = 'short-break';
-        startTimer();
-      } else if (currentInterval === 'short-break') {
-        timeLeft = longBreakTime * 60;
-        currentInterval = 'long-break';
-        startTimer();
       } else {
         timeLeft = pomodoroTime * 60;
         currentInterval = 'pomodoro';
       }
+      updateTimeLeftTextContent();
     }
   }, 1000);
 }
